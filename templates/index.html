@@ -1,267 +1,307 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+       <!-- Required meta tags -->
+       <meta charset="utf-8" />
+       <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+       <!-- Bootstrap CSS -->
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+              crossorigin="anonymous" />
 
-    <link rel="stylesheet" href="static/style.css">
+       <link rel="stylesheet" href="../static/style.css" />
 
-    <title>Football Player Overall Score</title>
+       <title>Football Player Overall Score</title>
 </head>
+
 <body>
-<div class="form-alignment">
-    <form action="/predict" method="POST">
-       <br>
-        <label for="customRange2" class="form-label">Potential</label>
-        <div id="potential">50</div>
-        <input type="range" class="form-range" id="customRange2" name="customRange2" min="1" max="100"
-               onInput="$('#potential').html($(this).val())">
-
-        <label for="customRange3" class="form-label">Crossing</label>
-        <div id="crossing">50</div>
-        <input type="range" class="form-range" id="customRange3" name="customRange3" min="1" max="100"
-               onInput="$('#crossing').html($(this).val())">
-
-        <label for="customRange4" class="form-label">Finishing</label>
-        <div id="finishing">50</div>
-        <input type="range" class="form-range" id="customRange4" name="customRange4" min="1" max="100"
-               onInput="$('#finishing').html($(this).val())">
-
-        <label for="customRange5" class="form-label">Heading Accuracy</label>
-        <div id="heading_accuracy">50</div>
-        <input type="range" class="form-range" id="customRange5" name="customRange5" min="1" max="100"
-               onInput="$('#heading_accuracy').html($(this).val())">
-
-        <label for="customRange6" class="form-label">Short Passing</label>
-        <div id="short_passing">50</div>
-        <input type="range" class="form-range" id="customRange6" name="customRange6" min="1" max="100"
-               onInput="$('#short_passing').html($(this).val())">
-
-        <label for="customRange7" class="form-label">Volleys</label>
-        <div id="volleys">50</div>
-        <input type="range" class="form-range" id="customRange7" name="customRange7" min="1" max="100"
-               onInput="$('#volleys').html($(this).val())">
-
-        <label for="customRange8" class="form-label">Dribbling</label>
-        <div id="dribbling">50</div>
-        <input type="range" class="form-range" id="customRange8" name="customRange8" min="1" max="100"
-               onInput="$('#dribbling').html($(this).val())">
-
-        <label for="customRange9" class="form-label">Curve</label>
-        <div id="curve">50</div>
-        <input type="range" class="form-range" id="customRange9" name="customRange9" min="1" max="100"
-               onInput="$('#curve').html($(this).val())">
-
-        <label for="customRange10" class="form-label">Free Kick Accuracy</label>
-        <div id="free_kick_accuracy">50</div>
-        <input type="range" class="form-range" id="customRange10" name="customRange10" min="1" max="100"
-               onInput="$('#free_kick_accuracy').html($(this).val())">
-
-        <label for="customRange11" class="form-label">Long Passing</label>
-        <div id="long_passing">50</div>
-        <input type="range" class="form-range" id="customRange11" name="customRange11" min="1" max="100"
-               onInput="$('#long_passing').html($(this).val())">
-
-        <label for="customRange12" class="form-label">Ball Control</label>
-        <div id="ball_control">50</div>
-        <input type="range" class="form-range" id="customRange12" name="customRange12" min="1" max="100"
-               onInput="$('#ball_control').html($(this).val())">
-
-        <label for="customRange13" class="form-label">Acceleration</label>
-        <div id="acceleration">50</div>
-        <input type="range" class="form-range" id="customRange13" name="customRange13" min="1" max="100"
-               onInput="$('#acceleration').html($(this).val())">
-
-        <label for="customRange14" class="form-label">Sprint Speed</label>
-        <div id="sprint_speed">50</div>
-        <input type="range" class="form-range" id="customRange14" name="customRange14" min="1" max="100"
-               onInput="$('#sprint_speed').html($(this).val())">
-
-        <label for="customRange15" class="form-label">Agility</label>
-        <div id="agility">50</div>
-        <input type="range" class="form-range" id="customRange15" name="customRange15" min="1" max="100"
-               onInput="$('#agility').html($(this).val())">
-
-        <label for="customRange16" class="form-label">Reactions</label>
-        <div id="reactions">50</div>
-        <input type="range" class="form-range" id="customRange16" name="customRange16" min="1" max="100"
-               onInput="$('#reactions').html($(this).val())">
-
-        <label for="customRange17" class="form-label">Balance</label>
-        <div id="balance">50</div>
-        <input type="range" class="form-range" id="customRange17" name="customRange17" min="1" max="100"
-               onInput="$('#balance').html($(this).val())">
-
-        <label for="customRange18" class="form-label">Shot Power</label>
-        <div id="shot_power">50</div>
-        <input type="range" class="form-range" id="customRange18" name="customRange18" min="1" max="100"
-               onInput="$('#shot_power').html($(this).val())">
-
-        <label for="customRange19" class="form-label">Jumping</label>
-        <div id="jumping">50</div>
-        <input type="range" class="form-range" id="customRange19" name="customRange19" min="1" max="100"
-               onInput="$('#jumping').html($(this).val())">
-
-        <label for="customRange20" class="form-label">Stamina</label>
-        <div id="stamina">50</div>
-        <input type="range" class="form-range" id="customRange20" name="customRange20" min="1" max="100"
-               onInput="$('#stamina').html($(this).val())">
-
-        <label for="customRange21" class="form-label">Strength</label>
-        <div id="strength">50</div>
-        <input type="range" class="form-range" id="customRange21" name="customRange21" min="1" max="100"
-               onInput="$('#strength').html($(this).val())">
-
-        <label for="customRange22" class="form-label">Long Shots</label>
-        <div id="long_shots">50</div>
-        <input type="range" class="form-range" id="customRange22" name="customRange22" min="1" max="100"
-               onInput="$('#long_shots').html($(this).val())">
-
-        <label for="customRange23" class="form-label">Aggression</label>
-        <div id="aggression">50</div>
-        <input type="range" class="form-range" id="customRange23" name="customRange23" min="1" max="100"
-               onInput="$('#aggression').html($(this).val())">
-
-        <label for="customRange24" class="form-label">Interceptions</label>
-        <div id="interceptions">50</div>
-        <input type="range" class="form-range" id="customRange24" name="customRange24" min="1" max="100"
-               onInput="$('#interceptions').html($(this).val())">
-
-        <label for="customRange25" class="form-label">Positioning</label>
-        <div id="positioning">50</div>
-        <input type="range" class="form-range" id="customRange25" name="customRange25" min="1" max="100"
-               onInput="$('#positioning').html($(this).val())">
-
-        <label for="customRange26" class="form-label">Vision</label>
-        <div id="vision">50</div>
-        <input type="range" class="form-range" id="customRange26" name="customRange26" min="1" max="100"
-               onInput="$('#vision').html($(this).val())">
-
-        <label for="customRange27" class="form-label">Penalties</label>
-        <div id="penalties">50</div>
-        <input type="range" class="form-range" id="customRange27" name="customRange27" min="1" max="100"
-               onInput="$('#penalties').html($(this).val())">
-
-        <label for="customRange28" class="form-label">Marking</label>
-        <div id="marking">50</div>
-        <input type="range" class="form-range" id="customRange28" name="customRange28" min="1" max="100"
-               onInput="$('#marking').html($(this).val())">
-
-        <label for="customRange29" class="form-label">Standing Tackle</label>
-        <div id="standing_tackle">50</div>
-        <input type="range" class="form-range" id="customRange29" name="customRange29" min="1" max="100"
-               onInput="$('#standing_tackle').html($(this).val())">
-
-        <label for="customRange30" class="form-label">Sliding Tackle</label>
-        <div id="sliding_tackle">50</div>
-        <input type="range" class="form-range" id="customRange30" name="customRange30" min="1" max="100"
-               onInput="$('#sliding_tackle').html($(this).val())">
-
-        <label for="customRange31" class="form-label">Gk Diving</label>
-        <div id="gk_diving">50</div>
-        <input type="range" class="form-range" id="customRange31" name="customRange31" min="1" max="100"
-               onInput="$('#gk_diving').html($(this).val())">
-
-        <label for="customRange32" class="form-label">Gk Handling</label>
-        <div id="gk_handling">50</div>
-        <input type="range" class="form-range" id="customRange32" name="customRange32" min="1" max="100"
-               onInput="$('#gk_handling').html($(this).val())">
-
-        <label for="customRange33" class="form-label">Gk Kicking</label>
-        <div id="gk_kicking">50</div>
-        <input type="range" class="form-range" id="customRange33" name="customRange33" min="1" max="100"
-               onInput="$('#gk_kicking').html($(this).val())">
-
-        <label for="customRange34" class="form-label">Gk Positioning</label>
-        <div id="gk_positioning">50</div>
-        <input type="range" class="form-range" id="customRange34" name="customRange34" min="1" max="100"
-               onInput="$('#gk_positioning').html($(this).val())">
-
-        <label for="customRange35" class="form-label">Gk Reflexes</label>
-        <div id="gk_reflexes">50</div>
-        <input type="range" class="form-range" id="customRange35" name="customRange35" min="1" max="100"
-               onInput="$('#gk_reflexes').html($(this).val())">
+       
+       <div class="form-alignment">
+              <form action="/predict" method="POST">
+                     <p>Enter the Player Details or Submit a file below</p>
+                     <br />
+                     <div class="block1">
+                            <label for="customRange2" class="form-label">Potential</label>
+                            <div id="potential">50</div>
+                            <input type="range" class="form-range" id="customRange2" name="customRange2" min="1"
+                                   max="100" onInput="$('#potential').html($(this).val())" />
 
 
-        <!--prefered foot-->
-        <br><br>
-        <label for="preferred_foot" class="form-label">Preferred Foot</label><br>
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="preferred_foot" id="foot_left" autocomplete="off" value="left"
-                   checked>
-            <label class="btn btn-outline-primary" for="foot_left">Left</label>
-
-            <input type="radio" class="btn-check" name="preferred_foot" id="foot_right" autocomplete="off"
-                   value="right">
-            <label class="btn btn-outline-primary" for="foot_right">Right</label>
-        </div>
-        <br><br>
-
-        <!--attacking work rate-->
-        <label for="attacking_work_rate" class="form-label">Attacking Work Rate</label><br>
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="attacking_work_rate" id="low_1" autocomplete="off" value="low"
-                   checked>
-            <label class="btn btn-outline-primary" for="low_1">Low</label>
-
-            <input type="radio" class="btn-check" name="attacking_work_rate" id="medium_1" value="medium"
-                   autocomplete="off">
-            <label class="btn btn-outline-primary" for="medium_1">Medium</label>
-
-            <input type="radio" class="btn-check" name="attacking_work_rate" id="high_1" value="high"
-                   autocomplete="off">
-            <label class="btn btn-outline-primary" for="high_1">High</label>
-        </div>
-        <br><br>
-        <!--defensive work rate-->
-
-        <label for="defensive_work_rate" class="form-label">Defensive Work Rate</label><br>
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="defensive_work_rate" id="low_2" autocomplete="off" value="low"
-                   checked>
-            <label class="btn btn-outline-primary" for="low_2">Low</label>
-
-            <input type="radio" class="btn-check" name="defensive_work_rate" id="medium_2" value="medium"
-                   autocomplete="off">
-            <label class="btn btn-outline-primary" for="medium_2">Medium</label>
-
-            <input type="radio" class="btn-check" name="defensive_work_rate" id="high_2" value="high"
-                   autocomplete="off">
-            <label class="btn btn-outline-primary" for="high_2">High</label>
-        </div>
-        <br><br>
-        <button type="submit" class="btn btn-outline-success btn-group">Predict</button>
-        <br><br>
-    </form>
-    
+                            <label for="customRange3" class="form-label">Crossing</label>
+                            <div id="crossing">50</div>
+                            <input type="range" class="form-range" id="customRange3" name="customRange3" min="1"
+                                   max="100" onInput="$('#crossing').html($(this).val())" />
 
 
-    <!-- Optional JavaScript; choose one of the two! -->
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+                            <label for="customRange4" class="form-label">Finishing</label>
+                            <div id="finishing">50</div>
+                            <input type="range" class="form-range" id="customRange4" name="customRange4" min="1"
+                                   max="100" onInput="$('#finishing').html($(this).val())" />
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
+
+                            <label for="customRange5" class="form-label">Heading Accuracy</label>
+                            <div id="heading_accuracy">50</div>
+                            <input type="range" class="form-range" id="customRange5" name="customRange5" min="1"
+                                   max="100" onInput="$('#heading_accuracy').html($(this).val())" />
+
+                            <label for="customRange6" class="form-label">Short Passing</label>
+                            <div id="short_passing">50</div>
+                            <input type="range" class="form-range" id="customRange6" name="customRange6" min="1"
+                                   max="100" onInput="$('#short_passing').html($(this).val())" />
+
+                            <label for="customRange7" class="form-label">Volleys</label>
+                            <div id="volleys">50</div>
+                            <input type="range" class="form-range" id="customRange7" name="customRange7" min="1"
+                                   max="100" onInput="$('#volleys').html($(this).val())" />
+
+                            <label for="customRange8" class="form-label">Dribbling</label>
+                            <div id="dribbling">50</div>
+                            <input type="range" class="form-range" id="customRange8" name="customRange8" min="1"
+                                   max="100" onInput="$('#dribbling').html($(this).val())" />
+
+                            <label for="customRange9" class="form-label">Curve</label>
+                            <div id="curve">50</div>
+                            <input type="range" class="form-range" id="customRange9" name="customRange9" min="1"
+                                   max="100" onInput="$('#curve').html($(this).val())" />
+
+                            <label for="customRange10" class="form-label">Free Kick Accuracy</label>
+                            <div id="free_kick_accuracy">50</div>
+                            <input type="range" class="form-range" id="customRange10" name="customRange10" min="1"
+                                   max="100" onInput="$('#free_kick_accuracy').html($(this).val())" />
+
+                            <label for="customRange11" class="form-label">Long Passing</label>
+                            <div id="long_passing">50</div>
+                            <input type="range" class="form-range" id="customRange11" name="customRange11" min="1"
+                                   max="100" onInput="$('#long_passing').html($(this).val())" />
+
+                            <label for="customRange12" class="form-label">Ball Control</label>
+                            <div id="ball_control">50</div>
+                            <input type="range" class="form-range" id="customRange12" name="customRange12" min="1"
+                                   max="100" onInput="$('#ball_control').html($(this).val())" />
+
+                     </div>
+                     <div class="block2">
+
+                            <label for="customRange13" class="form-label">Acceleration</label>
+                            <div id="acceleration">50</div>
+                            <input type="range" class="form-range" id="customRange13" name="customRange13" min="1"
+                                   max="100" onInput="$('#acceleration').html($(this).val())" />
+
+
+                            <label for="customRange14" class="form-label">Sprint Speed</label>
+                            <div id="sprint_speed">50</div>
+                            <input type="range" class="form-range" id="customRange14" name="customRange14" min="1"
+                                   max="100" onInput="$('#sprint_speed').html($(this).val())" />
+
+
+                            <label for="customRange15" class="form-label">Agility</label>
+                            <div id="agility">50</div>
+                            <input type="range" class="form-range" id="customRange15" name="customRange15" min="1"
+                                   max="100" onInput="$('#agility').html($(this).val())" />
+
+
+
+                            <label for="customRange16" class="form-label">Reactions</label>
+                            <div id="reactions">50</div>
+                            <input type="range" class="form-range" id="customRange16" name="customRange16" min="1"
+                                   max="100" onInput="$('#reactions').html($(this).val())" />
+
+                            <label for="customRange17" class="form-label">Balance</label>
+                            <div id="balance">50</div>
+                            <input type="range" class="form-range" id="customRange17" name="customRange17" min="1"
+                                   max="100" onInput="$('#balance').html($(this).val())" />
+
+                            <label for="customRange18" class="form-label">Shot Power</label>
+                            <div id="shot_power">50</div>
+                            <input type="range" class="form-range" id="customRange18" name="customRange18" min="1"
+                                   max="100" onInput="$('#shot_power').html($(this).val())" />
+
+                            <label for="customRange19" class="form-label">Jumping</label>
+                            <div id="jumping">50</div>
+                            <input type="range" class="form-range" id="customRange19" name="customRange19" min="1"
+                                   max="100" onInput="$('#jumping').html($(this).val())" />
+
+                            <label for="customRange20" class="form-label">Stamina</label>
+                            <div id="stamina">50</div>
+                            <input type="range" class="form-range" id="customRange20" name="customRange20" min="1"
+                                   max="100" onInput="$('#stamina').html($(this).val())" />
+
+                            <label for="customRange21" class="form-label">Strength</label>
+                            <div id="strength">50</div>
+                            <input type="range" class="form-range" id="customRange21" name="customRange21" min="1"
+                                   max="100" onInput="$('#strength').html($(this).val())" />
+
+                            <label for="customRange22" class="form-label">Long Shots</label>
+                            <div id="long_shots">50</div>
+                            <input type="range" class="form-range" id="customRange22" name="customRange22" min="1"
+                                   max="100" onInput="$('#long_shots').html($(this).val())" />
+
+                            <label for="customRange23" class="form-label">Aggression</label>
+                            <div id="aggression">50</div>
+                            <input type="range" class="form-range" id="customRange23" name="customRange23" min="1"
+                                   max="100" onInput="$('#aggression').html($(this).val())" />
+                     </div>
+                     <div class="block3">
+
+                            <label for="customRange24" class="form-label">Interceptions</label>
+                            <div id="interceptions">50</div>
+                            <input type="range" class="form-range" id="customRange24" name="customRange24" min="1"
+                                   max="100" onInput="$('#interceptions').html($(this).val())" />
+
+
+
+                            <label for="customRange25" class="form-label">Positioning</label>
+                            <div id="positioning">50</div>
+                            <input type="range" class="form-range" id="customRange25" name="customRange25" min="1"
+                                   max="100" onInput="$('#positioning').html($(this).val())" />
+
+
+                            <label for="customRange26" class="form-label">Vision</label>
+                            <div id="vision">50</div>
+                            <input type="range" class="form-range" id="customRange26" name="customRange26" min="1"
+                                   max="100" onInput="$('#vision').html($(this).val())" />
+
+                            <label for="customRange27" class="form-label">Penalties</label>
+                            <div id="penalties">50</div>
+                            <input type="range" class="form-range" id="customRange27" name="customRange27" min="1"
+                                   max="100" onInput="$('#penalties').html($(this).val())" />
+
+                            <label for="customRange28" class="form-label">Marking</label>
+                            <div id="marking">50</div>
+                            <input type="range" class="form-range" id="customRange28" name="customRange28" min="1"
+                                   max="100" onInput="$('#marking').html($(this).val())" />
+
+                            <label for="customRange29" class="form-label">Standing Tackle</label>
+                            <div id="standing_tackle">50</div>
+                            <input type="range" class="form-range" id="customRange29" name="customRange29" min="1"
+                                   max="100" onInput="$('#standing_tackle').html($(this).val())" />
+
+                            <label for="customRange30" class="form-label">Sliding Tackle</label>
+                            <div id="sliding_tackle">50</div>
+                            <input type="range" class="form-range" id="customRange30" name="customRange30" min="1"
+                                   max="100" onInput="$('#sliding_tackle').html($(this).val())" />
+
+
+
+                            <label for="customRange31" class="form-label">Gk Diving</label>
+                            <div id="gk_diving">50</div>
+                            <input type="range" class="form-range" id="customRange31" name="customRange31" min="1"
+                                   max="100" onInput="$('#gk_diving').html($(this).val())" />
+
+                            <label for="customRange32" class="form-label">Gk Handling</label>
+                            <div id="gk_handling">50</div>
+                            <input type="range" class="form-range" id="customRange32" name="customRange32" min="1"
+                                   max="100" onInput="$('#gk_handling').html($(this).val())" />
+
+                            <label for="customRange33" class="form-label">Gk Kicking</label>
+                            <div id="gk_kicking">50</div>
+                            <input type="range" class="form-range" id="customRange33" name="customRange33" min="1"
+                                   max="100" onInput="$('#gk_kicking').html($(this).val())" />
+
+                            <label for="customRange34" class="form-label">Gk Positioning</label>
+                            <div id="gk_positioning">50</div>
+                            <input type="range" class="form-range" id="customRange34" name="customRange34" min="1"
+                                   max="100" onInput="$('#gk_positioning').html($(this).val())" />
+
+
+                     </div>
+                     <br>
+
+                     <div class="block4">
+                            <label for="customRange35" class="form-label">Gk Reflexes</label>
+                            <div id="gk_reflexes">50</div>
+                            <input type="range" class="form-range" id="customRange35" name="customRange35" min="1"
+                                   max="100" onInput="$('#gk_reflexes').html($(this).val())" />
+
+                     </div>
+                     
+                     <!--prefered foot-->
+                     <br /><br />
+                     <label for="preferred_foot" class="form-label">Preferred Foot</label><br />
+                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check btn-lg" name="preferred_foot" id="foot_left"
+                                   autocomplete="off" value="left" checked />
+                            <label class="btn btn-outline-primary" for="foot_left">Left</label>
+
+                            <input type="radio" class="btn-check btn-lg" name="preferred_foot" id="foot_right"
+                                   autocomplete="off" value="right" />
+                            <label class="btn btn-outline-primary" for="foot_right">Right</label>
+                     </div>
+                     <br /><br />
+
+                     <!--attacking work rate-->
+                     <label for="attacking_work_rate" class="form-label">Attacking Work Rate</label><br />
+                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check btn-group-lg" name="attacking_work_rate" id="low_1"
+                                   autocomplete="off" value="low" checked />
+                            <label class="btn btn-outline-danger" for="low_1">Low</label>
+
+                            <input type="radio" class="btn-check btn-group-lg" name="attacking_work_rate" id="medium_1"
+                                   value="medium" autocomplete="off" />
+                            <label class="btn btn-outline-primary" for="medium_1">Medium</label>
+
+                            <input type="radio" class="btn-check btn-group-lg" name="attacking_work_rate" id="high_1" value="high"
+                                   autocomplete="off" />
+                            <label class="btn btn-outline-success" for="high_1">High</label>
+                     </div>
+                     <br /><br />
+                     <!--defensive work rate-->
+
+                     <label for="defensive_work_rate" class="form-label">Defensive Work Rate</label><br />
+                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                            <input type="radio" class="btn-check btn-group-lg" name="defensive_work_rate" id="low_2"
+                                   autocomplete="off" value="low" checked />
+                            <label class="btn btn-outline-danger" for="low_2">Low</label>
+
+                            <input type="radio" class="btn-check btn-group-lg" name="defensive_work_rate" id="medium_2"
+                                   value="medium" autocomplete="off" />
+                            <label class="btn btn-outline-primary" for="medium_2">Medium</label>
+
+                            <input type="radio" class="btn-check btn-group-lg" name="defensive_work_rate" id="high_2" value="high"
+                                   autocomplete="off" />
+                            <label class="btn btn-outline-success" for="high_2">High</label>
+                     </div>
+                     <br /><br />
+                     <button type="submit" class="btn btn-outline-success btn-group">
+                            Predict
+                     </button>
+                     <br>
+                     <p>OR</p>
+                     
+                     
+
+                     <button type="submit" class="btn btn-outline-success btn-group">
+                            Upload a File
+                     </button>
+                     <a href="http://">Click here! For File upload format.</a>
+                     <br /><br />
+              </form>
+
+              <!-- Optional JavaScript; choose one of the two! -->
+
+              <!-- Option 1: Bootstrap Bundle with Popper -->
+              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                     crossorigin="anonymous"></script>
+              <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                     crossorigin="anonymous"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                     crossorigin="anonymous"></script>
+              <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                     crossorigin="anonymous"></script>
+
+              <!-- Option 2: Separate Popper and Bootstrap JS -->
+              <!--
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     -->
-</div>
+       </div>
 </body>
+
 </html>
