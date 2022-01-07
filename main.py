@@ -4,6 +4,7 @@ from flask import request
 import pandas as pd
 import joblib
 import numpy as np
+from functions import Clean_and_Merge
 
 app = Flask(__name__)
 
@@ -11,6 +12,30 @@ app = Flask(__name__)
 @app.route('/', methods=['POST', 'GET'])
 def homepage():
     return render_template('index.html')
+
+
+def transform_and_process_data(df):
+    initial_transformer = joblib.load('pipeline/07_01_2022-12_56_07_custom_attribute_object.pkl')
+    df = initial_transformer.transform(df)
+
+    transformer = joblib.load('pipeline/07_01_2022-12_56_07_full_transformer.pkl')
+    transformed_data = transformer.transform(df)
+
+    model = joblib.load('model/07_01_2022-12_56_31_best_model.pkl')
+    predicted_value = model.predict(transformed_data)
+
+    print('Predicted Value : ', predicted_value)
+    
+    target_transformer = joblib.load('pipeline/07_01_2022-12_56_07_target_pipeline.pkl')
+    actual_pred_value = np.round(target_transformer.inverse_transform([predicted_value]), 2)
+
+    print('Actual predicted value : ', actual_pred_value)
+
+
+@app.route('/file_predict', methods = ['POST'])
+def file_predict():
+    pass
+
 
 
 @app.route('/predict', methods = ['POST'])
@@ -51,27 +76,25 @@ def predict():
     gk_reflexes = request.form['customRange35'],
     preferred_foot=request.form['preferred_foot'],
     attacking_work_rate = request.form['attacking_work_rate'],
-    defensive_work_rate = request.form['defensive_work_rate'])
+    defensive_work_rate = request.form['defensive_work_rate'],
+    player_fifa_api_id = 'Not Required')
 
-    df = pd.DataFrame(data=[data.values()], columns=data.keys())
-    print(df)
+    player_data = pd.DataFrame(data=[data.values()], columns=data.keys())
+    
+    player_data.dropna(thresh=5, inplace=True)
 
-    transformer = joblib.load('pipeline/full_transformer.pkl')
-    transformed_data = transformer.transform(df)
+    transform_and_process_data(player_data)
 
-    model = joblib.load('model/best_model.pkl')
-    predicted_value = model.predict(transformed_data)
 
-    target_transformer = joblib.load('pipeline/target_pipeline.pkl')
-    new_dict = dict(pred_value = np.round(target_transformer.inverse_transform(predicted_value), 2)[0,0],
-                    Max_Rating = 94, Min_Rating = 33)
 
-    print(new_dict)
-    # print('data : ', json.dumps(new_dict, indent=4))
+    # new_dict = dict(pred_value = actual_pred_value[0,0],
+    #                 Max_Rating = 94, Min_Rating = 33)
 
-    new_dict['percentage'] = np.round(((new_dict['pred_value'] - new_dict['Min_Rating']) / (new_dict['Max_Rating'] - new_dict['Min_Rating'])) * 100, 2)
+    # print(new_dict)
 
-    return str(new_dict)
+    # new_dict['Percentage'] = np.round(((new_dict['pred_value'] - new_dict['Min_Rating']) / (new_dict['Max_Rating'] - new_dict['Min_Rating'])) * 100, 2)
+
+    # return render_template('output.html', new_dict=new_dict)
 
 if __name__ == '__main__':
     app.run(debug=True)
