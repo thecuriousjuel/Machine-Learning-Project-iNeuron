@@ -118,5 +118,5 @@ def predict():
     return render_template('output.html', output_dict=output_dict)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
 
