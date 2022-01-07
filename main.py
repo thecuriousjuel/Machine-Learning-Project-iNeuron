@@ -7,6 +7,7 @@ import numpy as np
 from functions import Clean_and_Merge
 
 app = Flask(__name__)
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1000 * 1000
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -15,8 +16,12 @@ def homepage():
 
 
 def transform_and_process_data(df):
+    df.dropna(thresh=5, inplace=True)
+
+    player_fifa_api_id = df['player_fifa_api_id'].unique() 
+
     initial_transformer = joblib.load('pipeline/07_01_2022-12_56_07_custom_attribute_object.pkl')
-    df = initial_transformer.transform(df)
+    df = initial_transformer.transform(df)    
 
     transformer = joblib.load('pipeline/07_01_2022-12_56_07_full_transformer.pkl')
     transformed_data = transformer.transform(df)
@@ -24,18 +29,39 @@ def transform_and_process_data(df):
     model = joblib.load('model/07_01_2022-12_56_31_best_model.pkl')
     predicted_value = model.predict(transformed_data)
 
-    print('Predicted Value : ', predicted_value)
+    # print('Predicted Value : ', predicted_value)
     
     target_transformer = joblib.load('pipeline/07_01_2022-12_56_07_target_pipeline.pkl')
-    actual_pred_value = np.round(target_transformer.inverse_transform([predicted_value]), 2)
+    actual_pred_value = np.round(target_transformer.inverse_transform(predicted_value.reshape(-1, 1)), 2)
 
-    print('Actual predicted value : ', actual_pred_value)
+    # print('Actual predicted value : ', actual_pred_value)
+    new_dict = {}
+
+    for i in range(len(player_fifa_api_id)):
+        temp_dict = {}
+        temp_dict['id'] = i + 1
+        temp_dict['pred_value'] = actual_pred_value[i, 0]
+        print(actual_pred_value[i, 0])
+
+        # temp_dict['Max_Rating'] = 94
+        # temp_dict['Min_Rating'] = 33
+
+        temp_dict['percentage'] = np.round(((temp_dict['pred_value'] - 33) / (94 - 33)) * 100, 2)
+
+        new_dict[player_fifa_api_id[i]] = temp_dict
+
+    return new_dict
 
 
 @app.route('/file_predict', methods = ['POST'])
 def file_predict():
-    pass
+    filename = request.files['filename']
+    player_data = pd.read_csv(filename)
+    
+    output_dict = transform_and_process_data(player_data)
+    print('output_dict : ', output_dict)
 
+    return render_template('output.html', output_dict=output_dict)
 
 
 @app.route('/predict', methods = ['POST'])
@@ -80,21 +106,11 @@ def predict():
     player_fifa_api_id = 'Not Required')
 
     player_data = pd.DataFrame(data=[data.values()], columns=data.keys())
-    
-    player_data.dropna(thresh=5, inplace=True)
 
-    transform_and_process_data(player_data)
+    output_dict = transform_and_process_data(player_data)
+    print('output_dict : ', output_dict)
 
-
-
-    # new_dict = dict(pred_value = actual_pred_value[0,0],
-    #                 Max_Rating = 94, Min_Rating = 33)
-
-    # print(new_dict)
-
-    # new_dict['Percentage'] = np.round(((new_dict['pred_value'] - new_dict['Min_Rating']) / (new_dict['Max_Rating'] - new_dict['Min_Rating'])) * 100, 2)
-
-    # return render_template('output.html', new_dict=new_dict)
+    return render_template('output.html', output_dict=output_dict)
 
 if __name__ == '__main__':
     app.run(debug=True)

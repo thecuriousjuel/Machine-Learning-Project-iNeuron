@@ -3,7 +3,6 @@
 body {
   background-image: url("2.jpg");
   height: auto;
-  background-repeat: no-repeat;
   background-size: auto;
   font-family: "Yanone Kaffeesatz", sans-serif;
   text-align: center;
@@ -21,7 +20,7 @@ table tr td {
 
 .table-hover tbody tr:hover td,
 .table-hover tbody tr:hover th {
-  background-color: rgba(0, 0, 0, 0.342);
+  background-color: rgba(0, 0, 0, 0.479);
   color: white;
   transform: scale(1.5);
 }

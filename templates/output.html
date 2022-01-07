@@ -16,16 +16,21 @@
       <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">Player ID</th>
           <th scope="col">Predicted Value</th>
           <th scope="col">Performance in Percentage</th>
         </tr>
       </thead>
+
       <tbody>
+        {% for key, values in output_dict.items() %}
         <tr>
-          <th scope="row">1</th>
-          <td>{{new_dict["pred_value"]}}</td>
-          <td>{{new_dict["Percentage"]}}</td>
+          <td>{{values["id"]}}</td>
+          <td>{{key}}</td>
+          <td>{{values["pred_value"]}}</td>
+          <td>{{values["percentage"]}}</td>
         </tr>
+        {% endfor %}
       </tbody>
     </table>
 

@@ -17,7 +17,6 @@
 </head>
 
 <body>
-       
        <div class="form-alignment">
               <form action="/predict" method="POST">
                      <p>Enter the Player Details or Submit a file below</p>
@@ -271,13 +270,23 @@
                      <br>
                      <p>OR</p>
                      
-                     
+              </form>
 
-                     <button type="file" class="btn btn-outline-success btn-group">
-                            Upload a File
-                     </button>
-                     <a href="http://">Click here! For File upload format.</a>
+              <form action="/file_predict" method="POST" enctype="multipart/form-data">
+                     <p>Upload a File</p>
+                     <input type="file" name="filename" class="btn btn-outline-success btn-group">
+                            
+                     
+                     
                      <br /><br />
+                     <button type="submit" class="btn btn-outline-success btn-group">
+                            Predict
+                     </button>
+                     <br>
+                     <br>
+                     <a href="http://">Click here! For File upload format.</a>
+                     <br>
+                     <br>
               </form>
 
               <!-- Optional JavaScript; choose one of the two! -->
