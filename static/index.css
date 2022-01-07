@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');
+
 .carousel-item{
     height: 100vh;
     min-height: 300px;
@@ -25,8 +27,9 @@
 }
 
 .carousel-caption h5{
-    font-size: 70px;
+    font-size: 100px;
     font-weight: 700;
+    font-family: 'PT Sans', sans-serif;
 }
 
 .carousel-caption p{

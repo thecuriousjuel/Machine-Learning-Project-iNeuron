@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro&display=swap');
 
 body {
   background-image: url("2.jpg");
@@ -22,6 +23,11 @@ table tr td {
 .table-hover tbody tr:hover th {
   background-color: rgba(0, 0, 0, 0.479);
   color: white;
+}
+
+.navbar{
+  text-align: center;
+  font-family: 'Be Vietnam Pro', sans-serif;
 }
 
 body {
