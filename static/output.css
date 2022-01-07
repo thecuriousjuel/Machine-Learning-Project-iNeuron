@@ -22,7 +22,6 @@ table tr td {
 .table-hover tbody tr:hover th {
   background-color: rgba(0, 0, 0, 0.479);
   color: white;
-  transform: scale(1.5);
 }
 
 body {

@@ -7,12 +7,17 @@ import numpy as np
 from functions import Clean_and_Merge
 
 app = Flask(__name__)
-app.config['MAX_CONTENT_LENGTH'] = 100 * 1000 * 1000
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1000 * 1000
 
 
 @app.route('/', methods=['POST', 'GET'])
 def homepage():
     return render_template('index.html')
+
+
+@app.route('/form', methods=['POST', 'GET'])
+def formpage():
+    return render_template('form.html')
 
 
 def transform_and_process_data(df):
@@ -46,7 +51,7 @@ def transform_and_process_data(df):
         # temp_dict['Max_Rating'] = 94
         # temp_dict['Min_Rating'] = 33
 
-        temp_dict['percentage'] = np.round(((temp_dict['pred_value'] - 33) / (94 - 33)) * 100, 2)
+        # temp_dict['percentage'] = np.round(((temp_dict['pred_value'] - 33) / (94 - 33)) * 100, 2)
 
         new_dict[player_fifa_api_id[i]] = temp_dict
 
@@ -59,7 +64,7 @@ def file_predict():
     player_data = pd.read_csv(filename)
     
     output_dict = transform_and_process_data(player_data)
-    print('output_dict : ', output_dict)
+    # print('output_dict : ', output_dict)
 
     return render_template('output.html', output_dict=output_dict)
 
@@ -108,7 +113,7 @@ def predict():
     player_data = pd.DataFrame(data=[data.values()], columns=data.keys())
 
     output_dict = transform_and_process_data(player_data)
-    print('output_dict : ', output_dict)
+    # print('output_dict : ', output_dict)
 
     return render_template('output.html', output_dict=output_dict)
 
