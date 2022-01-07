@@ -4,7 +4,6 @@ from flask import request
 import pandas as pd
 import joblib
 import numpy as np
-from functions import Clean_and_Merge
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1000 * 1000
@@ -25,18 +24,18 @@ def transform_and_process_data(df):
 
     player_fifa_api_id = df['player_fifa_api_id'].unique() 
 
-    initial_transformer = joblib.load('pipeline/07_01_2022-12_56_07_custom_attribute_object.pkl')
+    initial_transformer = joblib.load('pipeline/07_01_2022-22_02_52_custom_attribute_object.pkl')
     df = initial_transformer.transform(df)    
 
-    transformer = joblib.load('pipeline/07_01_2022-12_56_07_full_transformer.pkl')
+    transformer = joblib.load('pipeline/07_01_2022-22_02_52_full_transformer.pkl')
     transformed_data = transformer.transform(df)
 
-    model = joblib.load('model/07_01_2022-12_56_31_best_model.pkl')
+    model = joblib.load('model/07_01_2022-22_03_13_best_model.pkl')
     predicted_value = model.predict(transformed_data)
 
     # print('Predicted Value : ', predicted_value)
     
-    target_transformer = joblib.load('pipeline/07_01_2022-12_56_07_target_pipeline.pkl')
+    target_transformer = joblib.load('pipeline/07_01_2022-22_02_52_target_pipeline.pkl')
     actual_pred_value = np.round(target_transformer.inverse_transform(predicted_value.reshape(-1, 1)), 2)
 
     # print('Actual predicted value : ', actual_pred_value)
@@ -118,5 +117,5 @@ def predict():
     return render_template('output.html', output_dict=output_dict)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
 

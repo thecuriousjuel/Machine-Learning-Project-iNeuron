@@ -1,6 +1,7 @@
 from sklearn.base import TransformerMixin, BaseEstimator
-import pandas as pd
 import numpy as np
+import pandas as pd
+
 
 class Clean_and_Merge(BaseEstimator, TransformerMixin):
     def __init__(self):
@@ -20,7 +21,6 @@ class Clean_and_Merge(BaseEstimator, TransformerMixin):
             'vision', 'penalties', 'marking', 'standing_tackle', 'sliding_tackle',
             'gk_diving', 'gk_handling', 'gk_kicking', 'gk_positioning',
             'gk_reflexes']
-
         player_id = df['player_fifa_api_id'].unique()
         
         new_df = pd.DataFrame()
