@@ -46,7 +46,7 @@ def transform_and_process_data(df):
         temp_dict = {}
         temp_dict['id'] = i + 1
         temp_dict['pred_value'] = actual_pred_value[i, 0]
-        print(actual_pred_value[i, 0])
+        # print(actual_pred_value[i, 0])
 
         # temp_dict['Max_Rating'] = 94
         # temp_dict['Min_Rating'] = 33
