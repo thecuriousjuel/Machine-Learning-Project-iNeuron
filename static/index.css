@@ -29,7 +29,7 @@
 .carousel-caption h5{
     font-size: 100px;
     font-weight: 700;
-    font-family: 'PT Sans', sans-serif;
+    /* font-family: 'PT Sans', sans-serif; */
 }
 
 .carousel-caption p{
