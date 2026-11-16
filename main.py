@@ -1,12 +1,14 @@
-from flask import Flask
-from flask import render_template
-from flask import request
+import os
+from flask import Flask, render_template, request, url_for
+from werkzeug.middleware.proxy_fix import ProxyFix
 import pandas as pd
 import joblib
 import numpy as np
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1000 * 1000
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -117,5 +119,10 @@ def predict():
     return render_template('output.html', output_dict=output_dict)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    os.environ.pop("WERKZEUG_SERVER_FD", None)
+    os.environ.pop("WERKZEUG_RUN_MAIN", None)
+    port = int(os.environ.get("APP01_PORT", 5101))
+    host = os.environ.get("HOST", "127.0.0.1")
+    print(f"🚀 Football Prediction App running on http://{host}:{port}")
+    app.run(host=host, port=port, debug=False, use_reloader=False)
 
