@@ -1,96 +1,187 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="en" class="h-full">
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Player Performance & Rating Predictor | Machine Learning</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" href="static/index.css" />
-  <title>Football Player Overall Score</title>
+    <!-- Tailwind CSS v3 Engine -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Theme Logic with Manual Toggle & System Default -->
+    <script>
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('themeToggleIcon');
+            if (icon) {
+                icon.className = isDark ? 'bi bi-sun-fill text-sm text-amber-400' : 'bi bi-moon-stars-fill text-sm text-slate-600 dark:text-slate-300';
+            }
+        }
+        function applyCurrentTheme() {
+            const saved = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = saved === 'dark' || (!saved && prefersDark);
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            updateThemeIcon(isDark);
+        }
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon(isDark);
+        }
+        applyCurrentTheme();
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (!localStorage.getItem('theme')) {
+                applyCurrentTheme();
+            }
+        });
+        document.addEventListener('DOMContentLoaded', applyCurrentTheme);
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
-<body>
-  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-        aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-        aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-        aria-label="Slide 3"></button>
-    </div>
+<body class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-200 antialiased selection:bg-emerald-500 selection:text-white flex flex-col justify-between">
 
-    <form action="/form" method="POST">
-
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="static/Ronaldo.jpg" class="d-block w-100" alt="...">
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Be it Cristiano Ronaldo</h5>
-            <!-- <div class="slider-btn" type="submit">
-              <button class="btn btn-1 btn-light">Click to Start Predicting</button>
-            </div> -->
-
-          </div>
-        </div>
-
-
-        <div class="carousel-item">
-          <img src="static/Messi.jpg" class="d-block w-100" alt="...">
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Be it Lionel Messi</h5>
-            <!-- <div class="slider-btn" type="submit">
-              <button class="btn btn-1 btn-light">Click to Start Predicting</button>
-            </div> -->
-
-          </div>
-        </div>
-
-        <div class="carousel-item">
-          <img src="static/3.jpg" class="d-block w-100" alt="...">
-          <div class="carousel-caption d-none d-md-block">
-
-            <h5>Data can Predict</h5>
-            <div class="slider-btn">
-              <button class="btn btn-1 btn-light" type="submit">Click to Start Predicting</button>
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+                    <i class="bi bi-trophy-fill text-lg"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-900 dark:text-white text-base sm:text-lg">Football Analytics</span>
+                        <span class="px-2 py-0.5 rounded-full text-xs font-mono font-medium bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60">Rating ML</span>
+                    </div>
+                    <div class="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                        <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>FIFA / FC Player Overall Rating Model</span>
+                    </div>
+                </div>
             </div>
 
-          </div>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Theme Toggle Button -->
+                <button type="button" onclick="toggleTheme()" class="p-2 rounded-xl text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none" title="Toggle Theme" aria-label="Toggle Theme">
+                    <i id="themeToggleIcon" class="bi bi-moon-stars-fill text-sm"></i>
+                </button>
+                <a href="{{ url_for('formpage') }}" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 transition-colors">
+                    <i class="bi bi-play-circle-fill"></i>
+                    <span>Start Estimating</span>
+                </a>
+                <a href="https://thecuriousjuel.com/" class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <i class="bi bi-house-door"></i>
+                    <span class="hidden sm:inline">Portfolio Home</span>
+                </a>
+            </div>
         </div>
-      </div>
-    </form>
+    </header>
 
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
+    <!-- Main Content Container -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 flex-1 w-full flex flex-col items-center justify-center text-center">
 
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
+        <!-- Hero Badge -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 mb-6 shadow-sm">
+            <i class="bi bi-stars text-amber-500"></i>
+            <span>Trained on 180,000+ European Soccer Match & Player Records</span>
+        </div>
 
-  </div>
+        <!-- Hero Headline -->
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight max-w-4xl">
+            Predict Football Player <span class="bg-gradient-to-r from-emerald-600 to-amber-500 bg-clip-text text-transparent">Overall Performance Score</span>
+        </h1>
 
-  
+        <p class="mt-4 sm:mt-6 text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            From Cristiano Ronaldo and Lionel Messi to emerging grassroots prospects — estimate a player's official EA FC / FIFA overall rating using 34 granular technical, mental, and physical metrics.
+        </p>
 
-  <!-- Optional JavaScript; choose one of the two! -->
+        <!-- CTA Buttons -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <a href="{{ url_for('formpage') }}"
+                class="px-8 py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 shadow-xl shadow-emerald-500/25 active:scale-[0.99] transition-all inline-flex items-center gap-2 text-sm sm:text-base">
+                <i class="bi bi-sliders2-vertical text-lg"></i>
+                <span>Open Player Evaluator</span>
+            </a>
+            <a href="https://github.com/thecuriousjuel/Machine-Learning-Project-iNeuron.git" target="_blank"
+                class="px-6 py-4 rounded-xl font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-sm transition-all inline-flex items-center gap-2 text-sm sm:text-base">
+                <i class="bi bi-github text-lg"></i>
+                <span>Explore Source Code</span>
+            </a>
+        </div>
 
-  <!-- Option 1: Bootstrap Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
+        <!-- Feature Pillar Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-16 w-full text-left">
+            <div class="p-6 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 backdrop-blur shadow-sm">
+                <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-4">
+                    <i class="bi bi-lightning-charge-fill text-lg"></i>
+                </div>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm">Physical & Pace</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5">Acceleration, Sprint Speed, Stamina, Agility, and Strength kinematics.</p>
+            </div>
 
-  <!-- Option 2: Separate Popper and Bootstrap JS -->
-  <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-    -->
+            <div class="p-6 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 backdrop-blur shadow-sm">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-4">
+                    <i class="bi bi-dribbble text-lg"></i>
+                </div>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm">Technical Mastery</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5">Ball Control, Dribbling, Short & Long Passing, and Curve precision.</p>
+            </div>
 
+            <div class="p-6 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 backdrop-blur shadow-sm">
+                <div class="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-4">
+                    <i class="bi bi-bullseye text-lg"></i>
+                </div>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm">Attacking & Power</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5">Finishing, Shot Power, Heading Accuracy, Volleys, and Penalties.</p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 backdrop-blur shadow-sm">
+                <div class="w-10 h-10 rounded-xl bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center mb-4">
+                    <i class="bi bi-shield-shaded text-lg"></i>
+                </div>
+                <h3 class="font-bold text-slate-900 dark:text-white text-sm">Mental & Defensive</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1.5">Vision, Positioning, Reactions, Aggression, and Tackling awareness.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200/80 dark:border-slate-800/80 py-6 bg-white/50 dark:bg-slate-900/50 backdrop-blur">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+            <div>
+                Built with <span class="text-emerald-500">&hearts;</span> by <a href="https://thecuriousjuel.com" target="_blank" class="font-semibold text-slate-700 dark:text-slate-300 hover:underline">Biswajit</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <span>FIFA / European Soccer DB Estimator</span>
+                <span>&bull;</span>
+                <a href="https://github.com/thecuriousjuel/Machine-Learning-Project-iNeuron.git" target="_blank" class="hover:underline flex items-center gap-1">
+                    <i class="bi bi-github"></i>
+                    <span>Repository</span>
+                </a>
+            </div>
+        </div>
+    </footer>
 </body>
-
 </html>
