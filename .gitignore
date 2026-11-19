@@ -2,3 +2,6 @@
 __pycache__
 .idea
 Jupyter Notebook File/data/database.sqlite
+.venv/
+*.pyc
+.env
