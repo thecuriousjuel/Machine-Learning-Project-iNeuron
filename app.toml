@@ -1,0 +1,36 @@
+# ==============================================================================
+# Football Player Performance - Unified Application Manifest
+# ==============================================================================
+
+[app]
+id = "football-prediction"
+name = "Football Player Performance"
+category = "public_projects"             # "public_projects" routes to Public ML section
+slug = "football-prediction"
+url_path = "/football-prediction/"
+type = "python"
+
+# ------------------------------------------------------------------------------
+# Development Environment
+# ------------------------------------------------------------------------------
+[environments.development]
+port = 5201
+host = "127.0.0.1"
+command = ["uv", "run", "main.py"]
+
+[environments.development.env]
+PORT = 5201
+APP_ENV = "development"
+
+# ------------------------------------------------------------------------------
+# Production Environment
+# ------------------------------------------------------------------------------
+[environments.production]
+port = 7201
+host = "127.0.0.1"
+command = ["uv", "run", "main.py"]
+
+[environments.production.env]
+PORT = 7201
+APP_ENV = "production"
+
